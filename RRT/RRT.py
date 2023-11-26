@@ -36,16 +36,16 @@ class RRTMain:
             pygame.display.update()
         end_time = time.time()
         self.time = end_time - start_time
-        print("Time Needed = " + str(self.time))
+        print("\nTime Needed = " + str(self.time))
             
 
         path = graph.getPathCoords()
-        print(path)
+        print("\nPath planning = " + str(path))
         for i in range(len(path)):
             if(i+1 < len(path)):
                 self.distance  =  self.distance + math.hypot(abs(path[i][0]-path[i+1][0]),abs(path[i][1]-path[i+1][1]))
 
-        print(self.distance)
+        print("\nTotal distance = " + str(self.distance))
         map.drawpath(path)
         pygame.display.update()
         
