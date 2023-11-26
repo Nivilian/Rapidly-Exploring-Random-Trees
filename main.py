@@ -9,8 +9,8 @@ import sys
 
 rrt_star = False
 
-start_pos = (2,5)
-end_pos = (40,30)
+start_pos = (2,30)
+end_pos = (40,5)
 n_obstacles = 50
 window_width = 150
 window_height = 150
@@ -18,8 +18,8 @@ window_height = 150
 obstacle_file_name = 'obstacle_file'
 rrt_window_width = 650
 rrt_window_height = 650
-rrt_start_pos = (10,25)
-rrt_end_pos = (590,560)
+rrt_start_pos = (10,500)
+rrt_end_pos = (590,56)
 rrt_n_obstacles = 200
 obstacle_dim = parameters.OBSTACLE_DIM
 
