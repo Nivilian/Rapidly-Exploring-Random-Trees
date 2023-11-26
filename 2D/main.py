@@ -2,14 +2,10 @@
 import numpy as np
 from RRT.RRT import RRTMain
 from RRTStar.RRTStar import RRTStarMain
-from RRTStar.map import RRTStar
-import Astar.plotting as plotting
-from Astar.Astar import AStar
-from Astar.Dijkstra import Dijkstra
 import parameters
-import time
 import pickle
 import os 
+import sys
 
 rrt_star = False
 
@@ -27,10 +23,9 @@ rrt_end_pos = (590,560)
 rrt_n_obstacles = 200
 obstacle_dim = parameters.OBSTACLE_DIM
 
-
 def createObstacles():
     obs = set()
-    n = 50
+    n = 108
     x_coord = np.random.randint(0,window_width,n).tolist()
     y_coord = np.random.randint(0,window_height,n).tolist()
 
@@ -40,8 +35,6 @@ def createObstacles():
             continue
 
         obs.add((x_coord[i],y_coord[i]))
-
-
     return obs 
 
 def createObstacles_RandomSampling():
@@ -65,42 +58,15 @@ def createObstacles_RandomSampling():
     file.close()
     return obs
 
-
-
-
-
-def main():
-
+def main(newOb = True):
     obstacles = createObstacles()
-    
-    '''astar = AStar(start_pos, end_pos, obstacles, "euclidean")
-   
-    # call time 1231312313
-    
-    plot = plotting.Plotting(start_pos, end_pos,astar.Env)
-    
-    time_start = time.time()
-    path, visited = astar.searching()
-    time_end = time.time()
-    print(time_end-time_start)
-    
-    print(len(path))
-    plot.animation(path, visited, "A*",time_end-time_start ) 
- 
-    '''
-    dijkstra = Dijkstra(start_pos,end_pos,obstacles,None)
-    plot = plotting.Plotting(start_pos, end_pos,dijkstra.Env)
-    
-    time_start = time.time()
-    path, visited = dijkstra.searching()
-    time_end = time.time()
-    print(time_end-time_start)
+    if newOb == True:
+        if os.path.exists(obstacle_file_name):
+            os.remove(obstacle_file_name)
+            print(f"{obstacle_file_name} will be rebuilt.")
+        else:
+            print(f"{obstacle_file_name} will be built.")
 
-
-    print(len(path))
-    plot.animation(path, visited, "Dijkstra",time_end-time_start) 
-    
-    '''
 
     rrt_obstacles = None
     if os.path.exists(obstacle_file_name):
@@ -110,16 +76,17 @@ def main():
 
     else:
         rrt_obstacles = createObstacles_RandomSampling()
-
-
-    
+   
     if rrt_star:
         rrtstar = RRTStarMain(rrt_start_pos,rrt_end_pos,rrt_obstacles,obstacle_dim,rrt_window_width,rrt_window_height)
         rrtstar.run()
     else:
         rrt = RRTMain(rrt_window_width,rrt_window_height,rrt_start_pos,rrt_end_pos,rrt_obstacles,len(rrt_obstacles))
         rrt.run()
-    '''
 
 if __name__ == "__main__":
-    main()
+    if len(sys.argv) > 1:
+        newOb_value = sys.argv[1]  
+        main(newOb_value)
+    else:
+        main(True)
