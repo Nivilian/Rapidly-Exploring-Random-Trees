@@ -1,3 +1,0 @@
-START_POS = (5,5)
-END_POS = (19, 17)
-GRID_SIZE = (25,25)
